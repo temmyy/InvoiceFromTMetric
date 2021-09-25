@@ -1,0 +1,10 @@
+#your API key for connect to TMetric
+apiKey 0000000000000000000000000000000000000000000000000000000000000000
+
+#your salary in USD
+salary 1000
+
+#number of lines in invoice
+quantityInInvoice 5
+
+#
