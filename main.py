@@ -25,6 +25,7 @@ def init():
 
         p['startDate'] = start_date.strftime('%Y-%m-%dT%H:%M:%S')
         p['endDate'] = end_date.strftime('%Y-%m-%dT%H:%M:%S')
+        p['amount_seconds'] = 0
 
     return p
 
@@ -104,31 +105,33 @@ def get_time_entries(p):
     return requests.get(url_time, headers=params['headers'], params=param_time).json()
 
 
-if __name__ == '__main__':
-
-    params = init()
+def fill_table_time(table_time, params):
     response_time = get_time_entries(params)
-
-    table_time = {}
-    projects = {}
-    amount_seconds = 0
-
     for k in response_time:
         project_id = k.get('project').get('id')
-        projectName = k.get('project').get('name')
+        project_name = k.get('project').get('name')
         if project_id not in projects:
-            projects[project_id] = projectName
-        deltaTime = string_to_date(k.get('endTime')) - string_to_date(k.get('startTime'))
-        seconds = deltaTime.days * 24 * 60 * 60 + deltaTime.seconds
+            projects[project_id] = project_name
+        delta_time = string_to_date(k.get('endTime')) - string_to_date(k.get('startTime'))
+        seconds = delta_time.days * 24 * 60 * 60 + delta_time.seconds
         if project_id not in table_time:
             table_time[project_id] = [0 for n in range(0, 4)]
         table_time[project_id][0] += seconds
-        amount_seconds += seconds
+        params['amount_seconds'] += seconds
 
+
+if __name__ == '__main__':
+
+    params = init()
+
+    table_time = {}
+    projects = {}
+
+    fill_table_time(table_time, params)
     distribute_on_best(table_time, params['quantityInInvoice'])
 
     for i in table_time.values():
-        i[1] = round(i[0] / amount_seconds, 2)
+        i[1] = round(i[0] / params['amount_seconds'], 2)
         i[2] = round(i[1] * params['businessDay'], 1)
         i[3] = round(i[1] * params['salary'])
 
