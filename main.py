@@ -38,7 +38,7 @@ def function_sort(element):
     return element[1]
 
 
-def distribute_on_best(table_time, q_best):
+def distribute_on_best(q_best):
     list_time = [[j, table_time.get(j)[0]] for j in table_time]  # заполним список и отсортируем
     list_time.sort(key=function_sort, reverse=True)
 
@@ -53,29 +53,43 @@ def distribute_on_best(table_time, q_best):
             amount_five += k[1]
             k[1] = 0
         for k in list_time:
-            table_time.get(k[0])[0] = k[1]
+            if k[1] == 0:
+                table_time.pop(k[0])
+            else:
+                table_time.get(k[0])[0] = k[1]
 
 
-def print_table(table_time):
-    print('_' * 46)
-    print('Проект' + ' ' * (30 - len('Проект')), 'Доля', 'Дней', 'Деньги')
-    print('_' * 46)
+def print_table():
+    print('_' * 76)
+    print('Проект' + ' ' * (60 - len('Проект')), 'Доля', 'Дней', 'Деньги')
+    print('_' * 76)
     s1 = 0
     s2 = 0
     s3 = 0
     for k in table_time.items():
         if k[1][0] == 0:
             continue
-        project_name = projects.get(k[0])
+        project = projects_description.get(k[0])
+        if project is None:
+            project_name_ru = 'None (' + str(k[0]) + ')'
+            project_name_en = ''
+        else:
+            project_name_ru = project[0]
+            project_name_en = project[1]
         s1 += k[1][1]
         s2 += k[1][2]
         s3 += k[1][3]
-        print(project_name + ' ' * (30 - len(project_name)), str(k[1][1]) + ' ', str(k[1][2]) + ' ', k[1][3])
-    print('_' * 46)
-    print(' ' * 30, str(round(s1, 2)) + ' ', str(round(s2, 1)), s3)
+        print(project_name_ru + ' ' * (60 - len(project_name_ru)),
+              str(k[1][1]) + ' ',
+              str(k[1][2]) + ' ',
+              k[1][3],
+              '\n' + project_name_en)
+        print('_ ' * 38)
+    print('_' * 76)
+    print(' ' * 60, str(round(s1, 2)) + ' ', str(round(s2, 1)), s3)
 
 
-def control_of_totals(table_time, p):
+def control_of_totals(p):
     part = 0
     days = 0
     money = 0
@@ -83,7 +97,7 @@ def control_of_totals(table_time, p):
         part += k[1]
         days += k[2]
         money += k[3]
-    last_item = list(table_time.values())[p['quantityInInvoice']]
+    last_item = list(table_time.values())[p['quantityInInvoice'] - 1]
     last_item[1] = round(last_item[1] + 1 - part, 2)
     last_item[2] = round((last_item[2] + p['businessDay'] - days), 2)
     last_item[3] = round(last_item[1] * p['salary'], 0)
@@ -105,19 +119,25 @@ def get_time_entries(p):
     return requests.get(url_time, headers=params['headers'], params=param_time).json()
 
 
-def fill_table_time(table_time, params):
-    response_time = get_time_entries(params)
+def fill_table_time(p):
+    response_time = get_time_entries(p)
     for k in response_time:
         project_id = k.get('project').get('id')
-        project_name = k.get('project').get('name')
-        if project_id not in projects:
-            projects[project_id] = project_name
         delta_time = string_to_date(k.get('endTime')) - string_to_date(k.get('startTime'))
         seconds = delta_time.days * 24 * 60 * 60 + delta_time.seconds
         if project_id not in table_time:
-            table_time[project_id] = [0 for n in range(0, 4)]
+            table_time[project_id] = [0 for 0 in range(0, 4)]
         table_time[project_id][0] += seconds
-        params['amount_seconds'] += seconds
+        p['amount_seconds'] += seconds
+
+
+def fill_projects_description():
+    with open('projects_description.txt') as file:
+        for text_line in file.readlines():
+            if text_line.startswith('#'):
+                continue
+            line = text_line.strip().split('|')
+            projects_description[int(line[0])] = [line[1], line[2]]
 
 
 if __name__ == '__main__':
@@ -125,15 +145,16 @@ if __name__ == '__main__':
     params = init()
 
     table_time = {}
-    projects = {}
+    projects_description = {}
 
-    fill_table_time(table_time, params)
-    distribute_on_best(table_time, params['quantityInInvoice'])
+    fill_projects_description()
+    fill_table_time(params)
+    distribute_on_best(params['quantityInInvoice'])
 
     for i in table_time.values():
         i[1] = round(i[0] / params['amount_seconds'], 2)
         i[2] = round(i[1] * params['businessDay'], 1)
         i[3] = round(i[1] * params['salary'])
 
-    control_of_totals(table_time, params)
-    print_table(table_time)
+    control_of_totals(params)
+    print_table()
