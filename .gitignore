@@ -3,6 +3,8 @@
 
 config.txt
 projects_description.txt
+invoice.pdf
+Invoice_template.html
 .idea/
 
 # Gradle and Maven with auto-import
