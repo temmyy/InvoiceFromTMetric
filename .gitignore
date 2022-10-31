@@ -6,7 +6,7 @@ conf/config_RU.txt
 templates/Invoice_template_EN.html
 templates/Invoice_template_RU.html
 projects_description.txt
-invoice.pdf
+invoices/*
 .idea/
 
 # Gradle and Maven with auto-import

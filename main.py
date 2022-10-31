@@ -34,10 +34,11 @@ def init():
         p['amount_seconds'] = 0
 
         p.get('print_invoice')['_invoice_year_'] = year
+        p.get('print_invoice')['_invoice_month_'] = month
         p.get('print_invoice')['_invoice_month_en_'] = get_month_name(datetime.datetime.now().month, 0)
         p.get('print_invoice')['_invoice_month_ru_'] = get_month_name(datetime.datetime.now().month, 1)
         p.get('print_invoice')['_invoice_day_'] = str(datetime.datetime.now().day)
-        p.get('print_invoice')['_invoice_number_'] = str(input('Номер инвойса [018]:'))
+        p.get('print_invoice')['_invoice_number_'] = str(input('Номер инвойса [018]: '))
 
     return p
 
@@ -202,7 +203,7 @@ def print_invoice_to_pdf(p):
         s += new_line
     pdf_template = pdf_template.replace('<!-- table_line -->', s)
 
-    pdfkit.from_string(pdf_template, 'invoice.pdf')
+    pdfkit.from_string(pdf_template, 'invoices/'+p.get('print_invoice').get('_invoice_year_')+'.'+p.get('print_invoice').get('_invoice_month_')+'.pdf')
 
 
 if __name__ == '__main__':
