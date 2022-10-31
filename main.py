@@ -173,7 +173,7 @@ def fill_projects_description():
 
 def print_invoice_to_pdf(p):
     env = Environment(loader=FileSystemLoader('.'))
-    template = env.get_template("Invoice_template_EN.html")
+    template = env.get_template("templates/Invoice_template_EN.html")
     pdf_template = template.render(p.get('print_invoice'))
 
     template_table_line = '''
