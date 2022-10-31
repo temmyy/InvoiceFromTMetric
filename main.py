@@ -9,7 +9,7 @@ def init():
 
     p = {}
     p['print_invoice'] = {}
-    with open('config.txt') as config:
+    with open('conf/config_EN.txt') as config:
         for r in config.readlines():
             if r.startswith('apiKey'):
                 p['apiKey'] = r[7:-1]
@@ -21,10 +21,10 @@ def init():
                 p['quantityInInvoice'] = int(r[18:-1])
             elif r.startswith('print_invoice'):
                 p.get('print_invoice')[r[14:r.find(' ', 15)]] = r[r.find(' ', 15):-1]
-        p['businessDay'] = 10# int(input('Количество рабочих дней: '))
+        p['businessDay'] = 20 #int(input('Quantity work day : '))
 
-        year = "2022"# str(input('Год в формате [2021]: '))
-        month = "01"# str(input('Месяц в формате [08]: '))
+        year = '2022' #str(input("Current year [2021]: "))
+        month = '10' #str(input("Current month [08]: "))
         start_date = string_to_date(year + '-' + month + '-01T00:00:00')
         days_in_month = calendar.monthrange(start_date.year, start_date.month)[1]
         end_date = start_date + datetime.timedelta(days=days_in_month) - datetime.timedelta(seconds=1)
@@ -34,10 +34,10 @@ def init():
         p['amount_seconds'] = 0
 
         p.get('print_invoice')['_invoice_year_'] = year
-        p.get('print_invoice')['_invoice_month_en_'] = get_month_name(month, 0)
-        p.get('print_invoice')['_invoice_month_ru_'] = get_month_name(month, 1)
+        p.get('print_invoice')['_invoice_month_en_'] = get_month_name(datetime.datetime.now().month, 0)
+        p.get('print_invoice')['_invoice_month_ru_'] = get_month_name(datetime.datetime.now().month, 1)
         p.get('print_invoice')['_invoice_day_'] = str(datetime.datetime.now().day)
-        p.get('print_invoice')['_invoice_number_'] = "022"# str(input('Номер инвойса [018]:'))
+        p.get('print_invoice')['_invoice_number_'] = "031"# str(input('Номер инвойса [018]:'))
 
     return p
 
@@ -62,15 +62,15 @@ def function_sort(element):
 
 
 def distribute_on_best(q_best):
-    list_time = [[j, table_time.get(j)[0]] for j in table_time]  # заполним список и отсортируем
+    list_time = [[j, table_time.get(j)[0]] for j in table_time]  # fill list and sort
     list_time.sort(key=function_sort, reverse=True)
 
     if len(list_time) > q_best:
-        amount_five: int = 0  # сумма лучших пяти, для определения доли лучших пяти
+        amount_five = 0
         for k in list_time[0:q_best]:
             amount_five += k[1]
-        for k in list_time[q_best:]:  # обходим тех, кто не вошёл в лучшую пятёрку
-            for j in list_time[:q_best]:  # распределяем по пятёрке лучших в долях
+        for k in list_time[q_best:]:
+            for j in list_time[:q_best]:
                 d = round((j[1] / amount_five), 2)
                 j[1] += d * k[1]
             amount_five += k[1]
@@ -96,7 +96,7 @@ def get_project_description(id):
 
 def print_table():
     print('_' * 76)
-    print('Проект' + ' ' * (60 - len('Проект')), 'Доля', 'Дней', 'Деньги')
+    print('Project' + ' ' * (60 - len('Project')), 'Part', 'Days', 'Money')
     print('_' * 76)
     s1 = 0
     s2 = 0
@@ -131,7 +131,7 @@ def control_of_totals(p):
     last_item = list(table_time.values())[p['quantityInInvoice'] - 1]
     last_item[1] = round(last_item[1] + 1 - part, 2)
     last_item[2] = round((last_item[2] + p['businessDay'] - days), 2)
-    last_item[3] = int(last_item[1] * p['salary'])
+    last_item[3] = int(round(last_item[1] * p['salary'], 0))
 
 
 def get_time_entries(p):
@@ -157,7 +157,7 @@ def fill_table_time(p):
         delta_time = string_to_date(k.get('endTime')) - string_to_date(k.get('startTime'))
         seconds = delta_time.days * 24 * 60 * 60 + delta_time.seconds
         if project_id not in table_time:
-            table_time[project_id] = [0 for i in range(0, 4)]
+            table_time[project_id] = [0, 0, 0, 0]
         table_time[project_id][0] += seconds
         p['amount_seconds'] += seconds
 
@@ -173,7 +173,7 @@ def fill_projects_description():
 
 def print_invoice_to_pdf(p):
     env = Environment(loader=FileSystemLoader('.'))
-    template = env.get_template("Invoice_template.html")
+    template = env.get_template("Invoice_template_EN.html")
     pdf_template = template.render(p.get('print_invoice'))
 
     template_table_line = '''
