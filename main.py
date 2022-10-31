@@ -154,7 +154,10 @@ def fill_table_time(p):
     response_time = get_time_entries(p)
     for k in response_time:
         project_id = k.get('project').get('id')
-        delta_time = string_to_date(k.get('endTime')) - string_to_date(k.get('startTime'))
+        end_time = k.get('endTime')
+        if end_time == None:
+            end_time = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+        delta_time = string_to_date(end_time) - string_to_date(k.get('startTime'))
         seconds = delta_time.days * 24 * 60 * 60 + delta_time.seconds
         if project_id not in table_time:
             table_time[project_id] = [0, 0, 0, 0]
