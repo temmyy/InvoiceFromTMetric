@@ -21,10 +21,10 @@ def init():
                 p['quantityInInvoice'] = int(r[18:-1])
             elif r.startswith('print_invoice'):
                 p.get('print_invoice')[r[14:r.find(' ', 15)]] = r[r.find(' ', 15):-1]
-        p['businessDay'] = 20 #int(input('Quantity work day : '))
+        p['businessDay'] = int(input('Quantity work day : '))
 
-        year = '2022' #str(input("Current year [2021]: "))
-        month = '10' #str(input("Current month [08]: "))
+        year = str(input("Current year [2021]: "))
+        month = str(input("Current month [08]: "))
         start_date = string_to_date(year + '-' + month + '-01T00:00:00')
         days_in_month = calendar.monthrange(start_date.year, start_date.month)[1]
         end_date = start_date + datetime.timedelta(days=days_in_month) - datetime.timedelta(seconds=1)
@@ -37,7 +37,7 @@ def init():
         p.get('print_invoice')['_invoice_month_en_'] = get_month_name(datetime.datetime.now().month, 0)
         p.get('print_invoice')['_invoice_month_ru_'] = get_month_name(datetime.datetime.now().month, 1)
         p.get('print_invoice')['_invoice_day_'] = str(datetime.datetime.now().day)
-        p.get('print_invoice')['_invoice_number_'] = "031"# str(input('Номер инвойса [018]:'))
+        p.get('print_invoice')['_invoice_number_'] = str(input('Номер инвойса [018]:'))
 
     return p
 
