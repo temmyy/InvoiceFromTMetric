@@ -1,0 +1,38 @@
+#подключение к TMetric
+[TMetric API]
+api_key: 0000000000000000000000000000000000000000000000000000000000000000
+authorization: Bearer ${api_key}
+accept: text/json
+
+#основное
+[General]
+salary_amount = 1000
+quantity_in_invoice = 4
+salary_in_cursive: One thousand US Dollars
+
+[GeneralForPrint]
+unit: Month
+
+[Contractor]
+name : P/E IVAN IVANOV
+id_number : 123456789
+email : example@gmail.com
+phone : +999999999999
+address : Georgia, Tbilisi, Freedom Square 1
+account_number : GE0000000000000012345
+
+[Customer]
+name : Company Co., Ltd.
+address : Company address
+phone : Company phone
+email : CompanyMail@gmail.com
+site : www.CompanySite.com
+
+[ContractorBank]
+name : My Bank
+address : My Bank address
+swift : My Bank swift
+corr_name : Corr Bank
+corr_address : Corr Bank address
+corr_swift : Corr Bank swift
+corr_account_number : Corr Bank account number
