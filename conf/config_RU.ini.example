@@ -1,10 +1,11 @@
 #основное
 [General]
-conf_alias: EN
-invoice_template: Invoice_template_EN.html
+conf_alias: RU
+invoice_template: Invoice_template_RU.html
 salary_amount = 1000
 quantity_in_invoice = 4
-salary_in_cursive: One thousand US Dollars
+salary_in_cursive_en: One thousand US Dollars
+salary_in_cursive_ru: Одна тысяча долларов США
 
 #подключение к TMetric
 [TMetric API]
@@ -13,15 +14,18 @@ authorization: Bearer ${api_key}
 accept: text/json
 
 [GeneralForPrint]
-unit: Month
+unit: Month <br> Месяц
 
 [Contractor]
-name : P/E IVAN IVANOV
-id_number : 123456789
-email : example@gmail.com
-phone : +999999999999
-address : Georgia, Tbilisi, Freedom Square 1
-account_number : GE0000000000000012345
+name_ru: ИП Иванов Иван Иванович
+name_en: Ivan Ivanov
+inn: 123456789000
+email: example@gmail.com
+phone: +999999999999
+registration_number: 123456789000000
+address_en: Lenina street, 1, Tomsk, 634000, Russia
+address_ru: 634000, Россия, г. Томск, ул. Ленина, д.1
+account_number: 40800000000000000000
 
 [Customer]
 name : Company Co., Ltd.

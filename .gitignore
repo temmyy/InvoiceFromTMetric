@@ -1,11 +1,8 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-conf/config_RU.txt
-conf/config_RU.txt.example
 conf/config_EN.ini
-templates/Invoice_template_EN.html
-templates/Invoice_template_RU.html
+conf/config_RU.ini
 projects_description.txt
 invoices/*
 .idea/

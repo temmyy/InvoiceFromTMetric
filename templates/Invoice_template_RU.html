@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+      body{
+        font-family: Open Sans
+        size: 21cm 29.7cm;
+        margin: 20mm 20mm 20mm 20mm
+      }
+      table{
+        border-collapse:collapse;
+      }
+      td{
+        border-left:solid;
+        border-top:solid;
+        border-right:solid;
+        border-bottom:solid;
+      }
+      td.head_invoice {
+        border-left:none;
+        border-bottom:none;
+        border-top:none;
+        border-right:none;
+        width:50%;
+        vertical-align:top;
+        font-size:9pt;
+      }
+      td.under_table{
+        border-left:none;
+        border-bottom:none;
+        border-top:none;
+        border-right:none;
+      }
+    </style>
+</head>
+<body>
+
+  <table width="100%" cellspacing="0">
+    <tr><td class="head_invoice" colspan="2">Executor/Исполнитель: {{Contractor.name_en}} / {{Contractor.name_ru}} (ITN#/ИНН {{Contractor.inn}})</td></tr>
+    <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
+    <tr><td class="head_invoice">{{Contractor.address_en}}</td><td class="head_invoice" align="right">{{Contractor.address_ru}}</td></tr>
+    <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
+    <tr><td class="head_invoice">{{Contractor.email}}, {{Contractor.phone}}</td><td class="head_invoice" align="right">{{Contractor.email}}, {{Contractor.phone}}</td></tr>
+    <tr><td class="head_invoice">Registration # {{Contractor.registration_number}}</td><td class="head_invoice" align="right">ОГРНИП {{Contractor.registration_number}}</td></tr>
+    <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
+    <tr><td class="head_invoice" style="font-size:12pt">INVOICE/СЧЕТ-ДОГОВОР # {{General.invoice_number}}</td><td class="head_invoice" align="right" style="font-size:12pt">{{General.day}} {{General.month_en}} / {{General.month_ru}} {{General.year}}</td></tr>
+    <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
+    <tr><td class="head_invoice" colspan="2">Customer/Заказчик {{Customer.name}}, {{Customer.address}}, Ph: {{Customer.phone}}</td></tr>
+    <tr><td class="head_invoice" colspan="2">Email: {{Customer.email}}, Website: {{Customer.site}}</td></tr>
+    <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
+    <tr>
+      <td class="head_invoice" vertical-align="top"  style="font-size:7pt">
+        1.By issuing this invoice the Executor informs the Customer, that the contract<br>
+        conditions listed below have been fulfilled.<br>
+        2.By full or partial paying this invoice the Customer confirms that all the contract<br>
+        conditions listed below have been utterly fulfilled in due time and with adequate<br>
+        quality. And confirms mutual agreement to use fax or electronic-digital <br>
+        signatures and stamps reproduction in transactions.<br>
+        3.In case the invoice has not been paid within <b>thirty</b> days from the date of its<br>
+        issuance, the work shall be deemed not performed.<br>
+        4.Correspondent bank fee is paid by the Executor
+      </td>
+      <td class="head_invoice" style="font-size:7pt">
+        1. Настоящим документом Исполнитель информирует Заказчика о<br>
+        выполнении перечисленных ниже условий договора.<br>
+        2. Полной или частичной оплатой настоящего Счет-Договора Заказчик<br>
+        подтверждает, что все перечисленные ниже условия договора выполнены в<br>
+        полном объеме, в надлежащие сроки и с надлежащим качеством. А также<br>
+        выражает взаимное согласие использовать в сделках средства<br>
+        факсимильного или электронно-цифрового способа воспроизведения<br>
+        подписей и печатей.<br>
+        3. В случае отсутствии оплаты в течение <b>тридцати</b> дней с момента<br>
+        выставления настоящего Счет-Договора, работа считается невыполненной.<br>
+        4. Расходы по банковским операциям банков-корреспондентов оплачиваются<br>
+        исполнителем<br>
+      </td></tr>
+  </table>
+  <br>
+  <br>
+  <table width="100%" cellspacing="0" cellpadding="2" style="font-size:8pt">
+    <tr bgcolor="#000000" align="center">
+      <td width="3%"><font color="#ffffff">#<br>№</font></td>
+      <td><font color="#ffffff">Contract conditionals (services)<br>Условия договора (наименование услуг)</font></td>
+      <td><font color="#ffffff">Amount<br>Количество</font></td>
+      <td width="5%"><font color="#ffffff">Unit<br>Ед.</font></td>
+      <td width="8%"><font color="#ffffff">Price<br>Цена</font></td>
+      <td width="10%"><font color="#ffffff">Total<br>Сумма</font></td>
+    </tr>
+    <tr>
+      <!-- table_line -->
+    </tr>
+    <tr>
+      <td class="under_table" colspan="2"><b>Total sum:</b> {{General.salary_in_cursive_en}}</td>
+      <td class="under_table"  colspan="3" align="right"><b>Sub Total / Промежуточный итог</b></td>
+      <td align="right">US${{General.salary_amount}}</td>
+    </tr>
+    <tr>
+      <td class="under_table" colspan="2"><b>Итого:</b> {{General.salary_in_cursive_ru}}</td>
+      <td class="under_table"  colspan="3" align="right"><b>No VAT / Без НДС</b></td>
+      <td align="right"> - </td>
+    </tr>
+    <tr>
+      <td class="under_table" colspan="5" align="right"><b>Grand Total / Итого</b></td>
+      <td align="right">US${{General.salary_amount}}</td>
+    </tr>
+  </table>
+  <br>
+  <table width="100%">
+    <tr>
+      <td class="head_invoice" width="50%"></td>
+      <td class="head_invoice" width="50%">{{Contractor.name_en}} / {{Contractor.name_ru}}</td>
+    </tr>
+    <tr>
+      <td class="head_invoice" width="100%" colspan="2"><br></td>
+    </tr>
+    <tr>
+      <td class="head_invoice" width="50%"></td>
+      <td class="head_invoice" width="50%">By / Подпись</td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" cellspacing="0" cellpadding="2" style="font-size:7pt">
+    <tr>
+      <td class="head_invoice">
+        <b>Wire transfer information/Информация для перечисления средств</b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{Contractor.name_en}}, {{Contractor.address_en}}, Account No. {{Contractor.account_number}}, ITN#/INN {{Contractor.inn}} <br>
+        Beneficiary / Получатель
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ContractorBank.name}}, {{ContractorBank.address}}, SWIFT: {{ContractorBank.swift}}<br>
+        Beneficiary’s Bank / Банк получателя
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ContractorBank.corr_name}}, {{ContractorBank.corr_address}}, SWIFT: {{ContractorBank.corr_swift}}, account no. {{ContractorBank.corr_account_number}}<br>
+        Correspondent bank / Банк-корреспондент
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Payment against invoice #{{General.invoice_number}} Work accepted.<br>
+        Details of payment / Назначение платежа
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="100%" cellspacing="0" cellpadding="2">
+    <tr>
+      <td class="head_invoice"><p align="justify">
+        <font color="#808080" size="1">
+        For Russian authorities: Составлено во исполнение п.4 ПБУ 1/2008 (в части самостоятельной разработки первичных документов, для которых не предусмотрены
+        унифицированные формы) и в соответствии с требованиями законодательства РФ к первичным документам (ст. 9 Закона о бухучете от 21.11.1996 №129-ФЗ,
+        п.п. 12, 13 Положения о бухучете утвержденного Приказом Минфина России от 29.07.1998 №34н, Приказ Минфина РФ N 86н, МНС РФ №БГ-3-04/430 от
+        13.08.2002 в части реквизитов для индивидуальных предпринимателей). Использование факсимильного или электронно-цифрового воспроизведения подписи
+        и печати по взаимному соглашению сторон регулируется ГК РФ ст.160, п.2.
+        </font></p>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

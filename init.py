@@ -1,6 +1,7 @@
 import datetime
 import calendar
 import configparser
+import os
 from sys import argv
 
 
@@ -8,13 +9,14 @@ def init_invoice_params():
 
     # init variable parametrs
     try:
-        script_name, year, month, business_day, invoice_number = argv
+        script_name, year, month, business_day, invoice_number, conf_name = argv
     except:
         year = str(datetime.date.today().year)
         month = str(datetime.date.today().month)
         business_day = '19'
         today = datetime.date.today()
         invoice_number = 31 + (today.year * 12 + today.month) - (2022 * 12 + 10)
+        conf_name = choose_conf()
 
     start_date = string_to_date(year + '-' + month + '-01T00:00:00')
     days_in_month = calendar.monthrange(start_date.year, start_date.month)[1]
@@ -22,7 +24,7 @@ def init_invoice_params():
 
     # read config
     config = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
-    config.read("conf/config_EN.ini")
+    config.read("conf/" + conf_name)
     # add variable parametrs
     config['General']['business_day'] = business_day
     config['General']['invoice_number'] = str(invoice_number)
@@ -59,3 +61,30 @@ def get_month_name(m, t=0):
 
 def string_to_date(date_in_string):
     return datetime.datetime.strptime(date_in_string, "%Y-%m-%dT%H:%M:%S")
+
+
+def choose_conf():
+    # looking for config
+    configs = look_config()
+    if len(configs) == 1:
+        return list(configs[0].values())[0]
+    else:
+        print("Please, select config (enter number):")
+        for i in range(len(configs)):
+            print(i+1, ') ' + list(configs[i].keys())[0])
+        conf_num = int(input()) - 1
+        return list(configs[conf_num].values())[0]
+
+
+def look_config():
+    confs = []
+    for file in os.listdir(os.getcwd()+'/conf'):
+        if file.endswith(".ini"):
+            confs.append({get_conf_alias(file): file})
+    return confs
+
+
+def get_conf_alias(file):
+    config = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
+    config.read("conf/" + file)
+    return config.get('General', 'conf_alias', fallback=file)
