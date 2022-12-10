@@ -37,16 +37,16 @@
 <body>
 
   <table width="100%" cellspacing="0">
-    <tr><td class="head_invoice" colspan="2">Executor: {{_name_en_}} (ITN# {{_inn_}})</td></tr>
+    <tr><td class="head_invoice" colspan="2">Executor: {{Contractor.name}} (ITN# {{Contractor.id_number}})</td></tr>
     <tr><td class="head_invoice"><br></td></tr>
-    <tr><td class="head_invoice">{{_address_en_}}</td></tr>
+    <tr><td class="head_invoice">{{Contractor.address}}</td></tr>
     <tr><td class="head_invoice"><br></td></tr>
-    <tr><td class="head_invoice">{{_email_}}, {{_phone_}}</td></tr>
+    <tr><td class="head_invoice">{{Contractor.email}}, {{Contractor.phone}}</td></tr>
     <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
-    <tr><td class="head_invoice" style="font-size:12pt">INVOICE# {{_invoice_number_}}</td><td class="head_invoice" align="right" style="font-size:12pt">{{_invoice_day_}} {{_invoice_month_en_}} {{_invoice_year_}}</td></tr>
+    <tr><td class="head_invoice" style="font-size:12pt">INVOICE# {{General.invoice_number}}</td><td class="head_invoice" align="right" style="font-size:12pt">{{GeneralForPrint.day}} {{GeneralForPrint.month_en}} {{GeneralForPrint.year}}</td></tr>
     <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
-    <tr><td class="head_invoice" colspan="2">Customer {{_customer_name_}}, {{_customer_address_}}, Ph: {{_customer_phone_}}</td></tr>
-    <tr><td class="head_invoice" colspan="2">Email: {{_customer_email_}}, Website: {{_customer_site_}}</td></tr>
+    <tr><td class="head_invoice" colspan="2">Customer {{Customer.name}}, {{Customer.address}}, Ph: {{Customer.phone}}</td></tr>
+    <tr><td class="head_invoice" colspan="2">Email: {{Customer.email}}, Website: {{Customer.site}}</td></tr>
     <tr><td class="head_invoice"><br></td><td class="head_invoice"><br></td></tr>
     <tr>
       <td class="head_invoice" vertical-align="top"  style="font-size:7pt">
@@ -75,9 +75,9 @@
       <!-- table_line -->
     </tr>
     <tr>
-      <td class="under_table" colspan="2"><b>Total sum:</b> {{_total_sum_en_}}</td>
+      <td class="under_table" colspan="2"><b>Total sum:</b> {{General.salary_in_cursive}}</td>
       <td class="under_table"  colspan="3" align="right"><b>Sub Total</b></td>
-      <td align="right">US${{_salary_}}</td>
+      <td align="right">US${{General.salary_amount}}</td>
     </tr>
     <tr>
       <td class="under_table" colspan="2"></td>
@@ -86,14 +86,14 @@
     </tr>
     <tr>
       <td class="under_table" colspan="5" align="right"><b>Grand Total</b></td>
-      <td align="right">US${{_salary_}}</td>
+      <td align="right">US${{General.salary_amount}}</td>
     </tr>
   </table>
   <br>
   <table width="100%">
     <tr>
       <td class="head_invoice" width="50%"></td>
-      <td class="head_invoice" width="50%">{{_name_en_}}</td>
+      <td class="head_invoice" width="50%">{{Contractor.name}}</td>
     </tr>
     <tr>
       <td class="head_invoice" width="100%" colspan="2"><br></td>
@@ -113,25 +113,25 @@
     </tr>
     <tr>
       <td>
-        {{_name_en_}}, {{_address_en_}}, Account No. {{_account_number_}}, ITN#/INN {{_inn_}} <br>
+        {{Contractor.name}}, {{Contractor.address}}, Account No. {{Contractor.account_number}}, ITN#/INN {{Contractor.id_number}} <br>
         Beneficiary
       </td>
     </tr>
     <tr>
       <td>
-        {{_bank_name_}}, {{_bank_address_}}, SWIFT: {{_bank_swift_}}<br>
+        {{ContractorBank.name}}, {{ContractorBank.address}}, SWIFT: {{ContractorBank.swift}}<br>
         Beneficiary’s Bank
       </td>
     </tr>
     <tr>
       <td>
-        {{_corr_bank_name_}}, {{_corr_bank_address_}}, SWIFT: {{_corr_bank_swift_}}, account no. {{_corr_bank_account_number_}}<br>
+        {{ContractorBank.corr_name}}, {{ContractorBank.corr_address}}, SWIFT: {{ContractorBank.corr_swift}}, account no. {{ContractorBank.corr_account_number}}<br>
         Correspondent bank
       </td>
     </tr>
     <tr>
       <td>
-        Payment against invoice #{{_invoice_number_}} Work accepted.<br>
+        Payment against invoice #{{General.invoice_number}} Work accepted.<br>
         Details of payment
       </td>
     </tr>

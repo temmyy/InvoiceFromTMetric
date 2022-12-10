@@ -127,7 +127,7 @@ def fill_projects_description():
 
 def print_invoice_to_pdf(p):
     env = Environment(loader=FileSystemLoader('.'))
-    template = env.get_template("templates/Invoice_template_EN.html")
+    template = env.get_template("templates/" + p["General"]["invoice_template"])
     pdf_template = template.render(p)
 
     s = ''
@@ -149,8 +149,8 @@ def print_invoice_to_pdf(p):
         s += new_line
     pdf_template = pdf_template.replace('<!-- table_line -->', s)
 
-    pdfkit.from_string(pdf_template, 'invoices/' + p.get('GeneralForPrint').get('year')
-                       + '.' + p.get('GeneralForPrint').get('month') + '.pdf')
+    pdfkit.from_string(pdf_template, 'invoices/' + p.get('General').get('year')
+                       + '.' + p.get('General').get('month') + '.pdf')
 
 
 if __name__ == '__main__':
