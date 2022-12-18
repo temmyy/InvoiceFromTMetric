@@ -6,7 +6,6 @@ from sys import argv
 
 
 def init_invoice_params():
-
     # init variable parametrs
     try:
         script_name, year, month, business_day, invoice_number, conf_name = argv
@@ -45,6 +44,8 @@ def init_invoice_params():
     for section in config.sections():
         invoice_params[section] = {key: config[section].get(key) for key in config[section]}
 
+    fill_projects_description(invoice_params)
+
     return invoice_params
 
 
@@ -71,14 +72,14 @@ def choose_conf():
     else:
         print("Please, select config (enter number):")
         for i in range(len(configs)):
-            print(i+1, ') ' + list(configs[i].keys())[0])
+            print(i + 1, ') ' + list(configs[i].keys())[0])
         conf_num = int(input()) - 1
         return list(configs[conf_num].values())[0]
 
 
 def look_config():
     confs = []
-    for file in os.listdir(os.getcwd()+'/conf'):
+    for file in os.listdir(os.getcwd() + '/conf'):
         if file.endswith(".ini"):
             confs.append({get_conf_alias(file): file})
     return confs
@@ -88,3 +89,14 @@ def get_conf_alias(file):
     config = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
     config.read("conf/" + file)
     return config.get('General', 'conf_alias', fallback=file)
+
+
+def fill_projects_description(invoice_params):
+    with open('projects_description.txt') as file:
+        p_desc = {}
+        for text_line in file.readlines():
+            if text_line.startswith('#'):
+                continue
+            line = text_line.strip().split('|')
+            p_desc[int(line[0])] = [line[1], line[2]]
+        invoice_params['projects_descriptions'] = p_desc
