@@ -6,6 +6,7 @@ salary_amount = 1000
 quantity_in_invoice = 4
 salary_in_cursive_en: One thousand US Dollars
 salary_in_cursive_ru: Одна тысяча долларов США
+use_project_description: no
 
 #подключение к TMetric
 [TMetric API]

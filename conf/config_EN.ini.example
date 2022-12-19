@@ -5,6 +5,7 @@ invoice_template: Invoice_template_EN.html
 salary_amount = 1000
 quantity_in_invoice = 4
 salary_in_cursive: One thousand US Dollars
+use_project_description: yes
 
 #подключение к TMetric
 [TMetric API]

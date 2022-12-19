@@ -28,7 +28,11 @@ def get_table_time(p):
         k['part'] = 0
         k['business_day'] = 0
         k['salary_amount'] = 0
-        k['project']['project_description'] = get_project_description(p, k['project']['id'])
+        if p['General']['use_project_description'] == 'yes':  # need use bool
+            k['project']['project_description'] = get_project_description(p, k['project'])
+        else:
+            project_name = k['project']['name']
+            k['project']['project_description'] = {'name_ru': project_name, 'name_en': project_name}
         p['total_seconds'] += k.get('totalSeconds')
     return t
 
@@ -76,12 +80,13 @@ def calculate_table_time(t, p):
     control_of_totals(t, params)
 
 
-def get_project_description(p, project_id):
-    project = p['projects_descriptions'].get(project_id)
+def get_project_description(p, project_info):
+    project = p['projects_descriptions'].get(project_info['id'])
     project_description = {}
     if project is None:
-        project_description['name_ru'] = 'Неопределено (' + str(project_id) + ')'
-        project_description['name_en'] = 'None'
+        temp_name = '(' + str(project_info['id']) + ') ' + project_info['name']
+        project_description['name_ru'] = temp_name
+        project_description['name_en'] = temp_name
     else:
         project_description['name_ru'] = project[0]
         project_description['name_en'] = project[1]
